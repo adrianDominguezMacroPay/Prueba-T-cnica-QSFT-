@@ -13,7 +13,15 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Button("Prueba Técnica QSFT") {
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                              let window = scene.windows.first,
+                              let rootVC = window.rootViewController {
+                               let vc = LocationListRouter.createModule()
+                                vc.modalPresentationStyle =    .fullScreen
+                               rootVC.present(vc, animated: true)
+                           }
+            }
         }
         .padding()
     }
