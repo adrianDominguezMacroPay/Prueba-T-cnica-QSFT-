@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
+            Spacer()
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
@@ -18,10 +19,14 @@ struct ContentView: View {
                               let window = scene.windows.first,
                               let rootVC = window.rootViewController {
                                let vc = LocationListRouter.createModule()
-                                vc.modalPresentationStyle =    .fullScreen
+                               vc.modalPresentationStyle =    .fullScreen
                                rootVC.present(vc, animated: true)
                            }
             }
+            Spacer()
+            Text("Adrian P. Dominguez Gomez")
+                .font(.headline)
+            Spacer()
         }
         .padding()
     }

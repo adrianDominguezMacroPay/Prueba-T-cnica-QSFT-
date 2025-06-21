@@ -21,6 +21,11 @@ class LocationListViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addLocationTapped))
+      
+        
+        let closeButton = UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(closeScreenTapped))
+        navigationItem.rightBarButtonItems = [closeButton, navigationItem.rightBarButtonItem!]
+       
         let manualAddButton = UIBarButtonItem(title: "Manual", style: .plain, target: self, action: #selector(addManualLocationTapped))
         navigationItem.leftBarButtonItem = manualAddButton
         
@@ -32,6 +37,11 @@ class LocationListViewController: UITableViewController {
         ])
         
         presenter?.viewDidLoad()
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
     }
     @objc func addLocationTapped() {
         presenter?.didTapAddLocation()
@@ -115,6 +125,9 @@ class LocationListViewController: UITableViewController {
         }))
         self.present(alert, animated: true)
     }
+    @objc private func closeScreenTapped() {
+        dismiss(animated: true)
+    }
 
 }
 
@@ -131,3 +144,4 @@ extension LocationListViewController: LocationListViewProtocol {
 }
 
     
+
