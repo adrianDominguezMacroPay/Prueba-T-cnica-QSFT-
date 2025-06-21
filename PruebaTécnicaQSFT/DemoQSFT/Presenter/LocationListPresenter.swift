@@ -54,7 +54,13 @@ class LocationListPresenter {
         view?.showLoader()
         interactor?.deleteLocation(id: id)
     }
+    
+    func didTapAddManualLocation(lat: Double, lon: Double) {
+        view?.showLoader()
+        interactor?.insertManualLocation(lat: lat, lon: lon)
+    }
 }
+
 
 //Aqui se convierte el DTO o un ViewModel adaptado para la vista
 extension LocationListPresenter: LocationListPresenterProtocol {
@@ -63,7 +69,9 @@ extension LocationListPresenter: LocationListPresenterProtocol {
             LocationCellViewModel(
                 id: location.id,
                 counterText: "Contador: \(location.counter)",
-                formattedDate: dateFormatter.string(from: location.modifiedAt)
+                formattedDate: dateFormatter.string(from: location.modifiedAt),
+                latitude: location.latitude,
+                longitude: location.longitude
             )
         }
         view?.hideLoader()

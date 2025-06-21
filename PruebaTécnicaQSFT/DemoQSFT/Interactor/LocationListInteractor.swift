@@ -12,6 +12,7 @@ protocol LocationListInteractorProtocol: AnyObject {
     func addLocation()
     func incrementCounter(for id: Int)
     func deleteLocation(id: Int)
+    func insertManualLocation(lat: Double, lon: Double)
 }
 
 
@@ -49,7 +50,11 @@ extension LocationListInteractor: LocationListInteractorProtocol {
             self?.loadLocations()
         }
     }
-    
+    func insertManualLocation(lat: Double, lon: Double) {
+        SQLiteManager.shared.insertLocation(latitude: lat, longitude: lon) { [weak self] in
+            self?.loadLocations()
+        }
+    }
 }
 
 

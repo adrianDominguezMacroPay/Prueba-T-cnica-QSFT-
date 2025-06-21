@@ -20,4 +20,6 @@ struct LocationCellViewModel {
     let id: Int
     let counterText: String
     let formattedDate: String
+    let latitude: Double
+    let longitude: Double
 }

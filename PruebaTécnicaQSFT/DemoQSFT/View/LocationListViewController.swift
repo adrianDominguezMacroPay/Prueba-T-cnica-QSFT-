@@ -21,6 +21,8 @@ class LocationListViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addLocationTapped))
+        let manualAddButton = UIBarButtonItem(title: "Manual", style: .plain, target: self, action: #selector(addManualLocationTapped))
+        navigationItem.leftBarButtonItem = manualAddButton
         
         loader.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loader)
@@ -34,6 +36,8 @@ class LocationListViewController: UITableViewController {
     @objc func addLocationTapped() {
         presenter?.didTapAddLocation()
     }
+    
+    
     
     func reload(with viewModels: [LocationCellViewModel]) {
         
@@ -53,7 +57,9 @@ class LocationListViewController: UITableViewController {
 
         var config = cell.defaultContentConfiguration()
         config.text = vm.counterText
-        config.secondaryText = vm.formattedDate
+        let locationDetail = "Lat: \(vm.latitude), Lon: \(vm.longitude)"
+        config.secondaryTextProperties.numberOfLines = 2
+        config.secondaryText = "\(vm.formattedDate)\n\(locationDetail)"
         cell.contentConfiguration = config
 
         // Botón de eliminar
@@ -89,6 +95,27 @@ class LocationListViewController: UITableViewController {
         loader.stopAnimating()
         view.isUserInteractionEnabled = true
     }
+    @objc func addManualLocationTapped() {
+        let alert = UIAlertController(title: "Agregar ubicación manual", message: "Ingresa latitud y longitud", preferredStyle: .alert)
+        alert.addTextField { $0.placeholder = "Latitud (e.g. 19.4326)" }
+        alert.addTextField { $0.placeholder = "Longitud (e.g. -99.1332)" }
+        
+        
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+       
+        alert.addAction(UIAlertAction(title: "Agregar", style: .default, handler: { [weak self] _ in
+            guard let latText = alert.textFields?[0].text,
+                  let lonText = alert.textFields?[1].text,
+                  let lat = Double(latText),
+                  let lon = Double(lonText) else {
+                self?.showAlert(message: "Coordenadas inválidas")
+                return
+            }
+            self?.presenter?.didTapAddManualLocation(lat: lat, lon: lon)
+        }))
+        self.present(alert, animated: true)
+    }
+
 }
 
 
@@ -102,3 +129,5 @@ extension LocationListViewController: LocationListViewProtocol {
         showAlert(message: message)
     }
 }
+
+    
